@@ -2,7 +2,9 @@
 session_start();
 
 require_once "header.php";
-require_once "footer.php";
+require_once "funcs.php";
+
+$conn = connect_db();
 
 /* zkontrolujeme zda je kosik prazdny, pokud ano dame echo */
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
@@ -10,46 +12,77 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     exit;
 }
 
-$server = "localhost";
-$login = "root";
-$passwd = "";
-$schema = "eshop";
-
-$conn = new mysqli($server, $login, $passwd, $schema);
-
-
 /* timto prikazem odebereme produkt z kosiku */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_product_id'])) {
-    $remove_product_id = $_POST['remove_product_id'];
-    unset($_SESSION['cart'][$remove_product_id]);
+    $remove_product_id = (int)$_POST['remove_product_id']; // Zajistíme, že hodnota je integer
+    if (isset($_SESSION['cart'][$remove_product_id])) {
+        $_SESSION['cart'][$remove_product_id] -= 1; // Odebereme 1 kus
+        if ($_SESSION['cart'][$remove_product_id] <= 0) {
+            unset($_SESSION['cart'][$remove_product_id]); // Pokud je množství 0, odstraníme produkt
+        }
+    }
+}
 
 /* aby doslo k obnoveni kosiku po odebrani, pouzijeme toto a nasledne presmerujeme uzivatele znovu na cart.php */
-    if (empty($_SESSION['cart'])) {
-        header("Location: cart.php");
+if (empty($_SESSION['cart'])) {
+    header("Location: cart.php");
         exit;
     }
 
 
-}
 
 /* nacteme produkty v kosiku */
-$product_ids = implode(',', array_keys($_SESSION['cart']));
-$sql = "SELECT * FROM produkty WHERE product_id IN ($product_ids)";
-$result = $conn->query($sql);
+if (!empty($_SESSION['cart'])) {
+    $product_ids = implode(',', array_map('intval', array_keys($_SESSION['cart'])));
+    $sql = "SELECT * FROM produkty WHERE product_id IN ($product_ids)";
+    $result = $conn->query($sql);
+} else {
+    $result = false;
+}
 
 /* vypocet ceny */
 $total_price = 0;
 ?>
+<style>
+    .cart-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;    
+    }    
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #f4f4f4;
+    }
+    .total {
+        text-align: right;
+        font-weight: bold;
+    }
+    .button {       
+        float: right;
+    }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Košík</title>
-   
-</head>
-<body>
+    .remove-btn {
+        color: #ff5c5c;
+        background: none;       
+        border: none;
+        cursor: pointer;
+        font-size: 1.2em;
+    }
+    .remove-btn:hover {
+        color: #ff1c1c;
+    }
+    .icon {
+    width: 100px;
+        height: auto;
+    }
+</style>
 
 <div class="cart-container">
     <h1>Váš košík</h1>
@@ -57,10 +90,10 @@ $total_price = 0;
         <thead>
             <tr>
                   <th>Položka</th>
-                 <th>Cena</th>
-                 <th>Množství</th>
+                  <th>Cena</th>
+                  <th>Množství</th>
                   <th>Mezisoučet</th>
-                 <th></th>
+                  <th></th>
             </tr>
         </thead>
         <tbody>
@@ -91,9 +124,9 @@ $total_price = 0;
         </tbody>
     </table>
     <p class="total">Celková cena: <?= $total_price ?> Kč</p>
-    <a href="pokladna.php" class="btn">Přejít k pokladně</a>
+    <a href="pokladna.php" class="button">Přejít k pokladně</a>
 </div>
 
 <?php $conn->close(); ?>
-</body>
-</html>
+
+<?php require_once "footer.php"; ?>
