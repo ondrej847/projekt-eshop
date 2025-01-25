@@ -1,83 +1,10 @@
 <?php
 session_start();
-?>
-<?php
+
 require_once "header.php";
-require_once "footer.php";
-?>
+require_once "funcs.php";
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrace</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;   /* Zarovnání do středu horizontálně */
-            align-items: center;      /* Zarovnání do středu vertikálně */
-        }
-
-        .form-container {
-            background-color: white;
-            padding: 30px;
-            width: 90%;
-            max-width: 850px;
-            margin-top: 90px; /* Posunutí dolů */
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: rgb(136, 160, 141);
-        }
-
-        /* flexbox pro dva sloupce, aby to bylo pro noveho uzivatele rehlednejsi */
-        .form-grid {
-            display: flex;
-            gap: 30px;
-        }
-
-        label {
-            font-weight: bold;
-       }
-
-        input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 25px;
-            border: 1px solid #ccc;
-        }
-
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: rgb(136, 160, 141);
-            border: none;
-            color: white;
-            font-size: 15px;
-            cursor: pointer;
-
-        }
-
-    </style>
-</head>
-<?php
-
-$host = 'localhost';  
-$login = 'root'; 
-$passwd = '';  
-$schema = 'eshop';  
-
-$conn = new mysqli($host, $login, $passwd, $schema);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$conn = connect_db();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  
@@ -90,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cislo_popisne = $_POST['cislo_popisne'];
     $mesto = $_POST['mesto'];
     $psc = $_POST['psc'];
+   
 
 /*     zasifrovani hesla */
     $hashed_password = password_hash($heslo, PASSWORD_DEFAULT);
@@ -115,7 +43,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
 }
 ?>
-<body>
+    <link rel="stylesheet" href="css/style-pri-reg.css">
+<style>
+/* flexbox pro dva sloupce, aby to bylo pro noveho uzivatele rehlednejsi */
+    .form-grid {
+        display: flex;
+        gap: 30px;
+    }
+
+    input[type="tel"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 25px;
+        border: 1px solid #ccc;
+    }
+</style>
+
     <div class="form-container">
         <h2>Registrační formulář</h2>
         <form action="register.php" method="post">
@@ -153,5 +96,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="submit" value="Registrovat">
         </form>
     </div>
-</body>
-</html>
+
+<?php require_once "footer.php"; ?>

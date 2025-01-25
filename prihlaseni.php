@@ -5,19 +5,9 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 require_once "header.php";
-require_once "footer.php"; 
+require_once "funcs.php";
 
-$host = 'localhost';  
-$login = 'root'; 
-$passwd = '';  
-$schema = 'eshop';  
-
-$conn = new mysqli($host, $login, $passwd, $schema);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-
+$conn = connect_db();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -52,69 +42,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Přihlášení</title>
-    
+    <link rel="stylesheet" href="css/style-pri-reg.css">
 <!-- TODO: opravit prihlasovani, aby po kliknuti zpet na strance se uzivatel odhlasil a byl odhlasen    -->
-            <!-- udělat funkci na connect_db (zkousel jsem, ale nefungovalo mi to) -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;   /* Zarovnání do středu horizontálně */
-            align-items: center;      /* Zarovnání do středu vertikálně */
-            height: 90vh;
+<style>
+    body {
+        height: 90vh;
+    }
+    .register {  
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        color: rgb(136, 160, 141);
+        text-decoration: none;
+    }
+</style>
 
-        }
-        .form-container { /* ohraniceni a zvyrazneni formulare */
-            background-color: white;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-        }
-        h2 { /* test prihlaseni */
-            text-align: center;
-            margin-bottom: 20px;
-            color: rgb(136, 160, 141);
-        }
-        
-        label { /* zvyrazneni emailu a hesla */
-            font-weight: bold;
-
-        }
-        input[type="text"], input[type="password"], input[type="email"] { 
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-        }
-        input[type="submit"] { /* tlacitko na prihlaseni */
-            width: 100%;
-            padding: 10px;
-            background-color: rgb(136, 160, 141);
-            border: none;
-            color: white;
-            font-size: 15px;
-            cursor: pointer;
-        }
-        a {/*  tlaciko na registraci */
-            display: block;
-            text-align: center;
-            margin-top: 10px;
-            color: rgb(136, 160, 141);
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-    </style>
-</head>
-<body>
     <div class="form-container">
         <h2>Přihlášení</h2>
         <form action="prihlaseni.php" method="POST">
@@ -125,8 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="heslo"  placeholder="Zadejte své heslo" required>
 
             <input type="submit" value="Přihlásit">
-            <a href="register.php">Zaregistrujte se</a>
+    <div class="register">
+        <a href="register.php" class="register"> Zaregistrujte se</a>
+            
         </form>
+        </div>
     </div>
-</body>
-</html>
+
+<?php require_once "footer.php"; ?>
