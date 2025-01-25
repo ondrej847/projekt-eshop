@@ -1,7 +1,7 @@
 <?php
 session_start(); // Start session pro košík
 
-require_once "header.php";
+require_once "layout/header.php";
 require_once "funcs.php";
 
 $conn = connect_db();
@@ -104,4 +104,4 @@ $result = $conn->query($sql);
 
     <?php $conn->close(); ?>
 
-<?php require_once "footer.php"; ?>
+<?php require_once "layout/footer.php"; ?>

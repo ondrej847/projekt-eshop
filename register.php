@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once "header.php";
+require_once "layout/header.php";
 require_once "funcs.php";
 
 $conn = connect_db();
@@ -97,4 +97,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
-<?php require_once "footer.php"; ?>
+    <?php require_once "layout/footer.php"; ?>

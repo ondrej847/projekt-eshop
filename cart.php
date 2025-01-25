@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once "header.php";
+require_once "layout/header.php";
 require_once "funcs.php";
 
 $conn = connect_db();
@@ -129,4 +129,4 @@ $total_price = 0;
 
 <?php $conn->close(); ?>
 
-<?php require_once "footer.php"; ?>
+<?php require_once "layout/footer.php"; ?>
