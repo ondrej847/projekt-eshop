@@ -41,17 +41,17 @@ $result = $conn->query($sql);
         max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
+
     }
     .product {
         border: 1px solid #ddd;
         padding: 15px;
         text-align: center;
-
+        display: block;
     }
     .product img {
-         max-width: 100%;
-        height: auto;
-        border-radius: 8px;
+        width: 220px;   /* sirka obrazku */
+        height: 220px;   /* vyska */
     }
     .product h3 {
         font-size: 1.2em;
@@ -65,6 +65,7 @@ $result = $conn->query($sql);
     .product .price {
         font-weight: bold;
         color: rgb(136, 160, 141);
+        margin-top: 30px;
     }
     .add-to-cart {
         margin-top: 15px;
@@ -90,7 +91,6 @@ $result = $conn->query($sql);
                     <img src="<?= htmlspecialchars($row['obrazek_url']) ?>" alt="<?= htmlspecialchars($row['nazev']) ?>"> <!-- htmlspecialchars ochrana stránky -->
                     <p><?= htmlspecialchars($row['popis']) ?></p>
                     <p class="price"><?= htmlspecialchars($row['cena']) ?> Kč</p>
-                    <p>Skladem: <?= htmlspecialchars($row['mnozstvi']) ?> ks</p>
 
                 <!--  pridani do kosiku, formular, dodelat -->
                     <form method="post">
