@@ -27,9 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_product_id']))
 if (empty($_SESSION['cart'])) {
     header("Location: cart.php");
         exit;
-    }
-
-
+}
 
 /* nacteme produkty v kosiku */
 if (!empty($_SESSION['cart'])) {
@@ -43,45 +41,59 @@ if (!empty($_SESSION['cart'])) {
 /* vypocet ceny */
 $total_price = 0;
 ?>
-<style>
-    .cart-container {
-        max-width: 1200px;
-        margin: 20px auto;
-        padding: 20px;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;    
-    }    
-    th, td {
-        padding: 10px;
-        text-align: left;
-    }
-    th {
-        background-color: #f4f4f4;
-    }
-    .total {
-        text-align: right;
-        font-weight: bold;
-    }
-    .button {       
-        float: right;
-    }
 
-    .remove-btn {
-        color: #ff5c5c;
-        background: none;       
-        border: none;
-        cursor: pointer;
-        font-size: 1.2em;
-    }
-    .remove-btn:hover {
-        color: #ff1c1c;
-    }
-    .icon {
+<style>
+.cart-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;    
+}    
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+.total {
+    text-align: right;
+    font-weight: bold;
+}
+
+.button {       
+    float: right;
+}
+
+.remove-button {
+    color: #ff5c5c;
+    background: none;       
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.remove-button:hover {
+    color: #ff1c1c;
+}
+
+.icon {
     width: 100px;
-        height: auto;
-    }
+    height: auto;
+}
+
+.cart-empty {
+
+}
+  
 </style>
 
 <div class="cart-container">
@@ -115,7 +127,7 @@ $total_price = 0;
                         <td>
                             <form method="post">
                                 <input type="hidden" name="remove_product_id" value="<?= $product_id ?>">
-                                <button type="submit" class="remove-btn">&times;</button> <!-- &times je misto tlacitko to X -->
+                                <button type="submit" class="remove-button">&times;</button> <!-- &times je misto tlacitko to X -->
                             </form>
                         </td>
                     </tr>

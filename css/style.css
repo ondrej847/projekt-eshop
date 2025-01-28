@@ -20,12 +20,12 @@ body {
     text-decoration: none;  /* aby nebyl text podtrzeny */
     font-size: 20px;  /* velikost pisma pro eshop */
     font-weight: bold;  /* vyraznejsi text */    
-
 }
+
 .buttons {
     margin-right: 30px;  /* tlacitka si posunu trochu doprava */
     display: flex;  /* aby byli tlacitka zarovnana vedle sebe */     
-    }
+}
 
 .button {
     padding: 10px 20px;  /* urcuje vnitrni okraje mezi obsahem a hranicemi */

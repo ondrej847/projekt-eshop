@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const checkbox = document.getElementById('showPasswordCheckbox');
-    const passwordInput = document.getElementById('id_heslo');
+    const passwordInput = document.getElementById('heslo');
 
     checkbox.addEventListener('change', function () {
         if (this.checked) {

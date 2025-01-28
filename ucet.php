@@ -30,23 +30,26 @@ $conn->close();
 ?>
 
 <style>
-    .account-info {
-        padding: 20px;
-        margin-top: 80px; /* Aby se to nepřekrývalo s hlavním menu */
-        background-color:rgb(236, 235, 235);
-        text-align: center;
-    }
+.account-info {
+    padding: 20px;
+    margin-top: 80px; /* Aby se to nepřekrývalo s hlavním menu */
+    background-color:rgb(236, 235, 235);
+    text-align: center;
+}
 
-    .account-details {
-        font-size: 18px;
-        color: #333;
-    }
+.account-details {
+    font-size: 18px;
+    color: #333;
+}
 
-    .admin-button {
-        margin-top: 20px;
-        text-align: center;
-    }
-
+.admin-button {
+    margin-top: 20px;
+    text-align: center;
+}
+.objednavky-button {
+    margin-top: 20px;
+    text-align: center;
+}
 </style>
 
 <div class="account-info">
@@ -63,7 +66,11 @@ $conn->close();
         <div class="admin-button">
             <a href="admin.php" class="button">Administrátorská stránka</a>
         </div>
-    <?php endif; ?>
+ <?php else: ?>
+        <div class="objednavky-button">        
+            <a href="objednavky.php" class="button">Moje objednávky</a>
+        </div>
+ <?php endif; ?>
 </div>
 
 

@@ -45,22 +45,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
     <link rel="stylesheet" href="css/style-pri-reg.css">
 <style>
-/* flexbox pro dva sloupce, aby to bylo pro noveho uzivatele rehlednejsi */
-    .form-grid {
-        display: flex;
-        gap: 30px;
-    }
 
-    input[type="tel"] {
-        width: 100%;
-        padding: 12px;
-        margin-bottom: 25px;
-        border: 1px solid #ccc;
-    }
+.form-grid { /* flexbox pro dva sloupce, aby to bylo pro noveho uzivatele rehlednejsi */
+    display: flex;
+    gap: 30px;
+}
+
+input[type="tel"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ccc;
+}
+
 </style>
 
-    <div class="form-container">
-        <h2>Registrační formulář</h2>
+<div class="form-container">
+    <h2>Registrační formulář</h2>
         <form action="register.php" method="post">
             <div class="form-grid">
                 <div>
@@ -90,11 +91,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="text"  name="psc" required placeholder="Zadejte psč">
                 </div>
             </div>
-            <label for="telefon">Telefon:</label>
-            <input type="tel" name="telefon" required placeholder="Zadejte telefon"> 
+                <label for="telefon">Telefon:</label>
+                <input type="tel" name="telefon" required placeholder="Zadejte telefon"> 
             
-            <input type="submit" value="Registrovat">
+                <input type="submit" value="Registrovat">
         </form>
-    </div>
+</div>
 
     <?php require_once "layout/footer.php"; ?>

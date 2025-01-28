@@ -5,7 +5,6 @@ body {
     align-items: center;      /* Zarovnaní do středu vertikálně */
 }
 
-
 input[type="text"], input[type="email"], input[type="password"] {
     width: 100%;
     padding: 12px;
@@ -20,9 +19,9 @@ input[type="submit"] {
     border: none;
     color: white;
     font-size: 15px;
-    cursor: pointer;
-
+    cursor: pointer;   
 }
+
 .form-container {
     background-color: white;
     padding: 30px;
@@ -30,9 +29,9 @@ input[type="submit"] {
     max-width: 850px;
     margin-top: 90px; /* Posunutí dolů */
 }
+
 label { /* zvyrazneni emailu a hesla */
     font-weight: bold;
-
 }
 
 h2 {
