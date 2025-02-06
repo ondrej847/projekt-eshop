@@ -6,11 +6,32 @@ require_once "funcs.php";
 
 $conn = connect_db();
 
+
+if (!isset($_SESSION['user_id'])) {
+
+    echo '
+    <div id="message" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+         background-color: white; color:rgb(136, 160, 141); 
+            padding: 20px; text-align: center; font-size: 28px;  
+             border: rgb(136, 160, 141);; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+        Nejsi přihlášen, přihlas se
+    </div>';
+    echo '<script>
+            console.log("Zpráva bude zobrazená a přesměrování za 2 sekundy.");
+            setTimeout(function() {
+                window.location.href = "prihlaseni.php"; 
+            }, 4000); 
+          </script>';
+    exit(); 
+}
+
 /* zkontrolujeme zda je kosik prazdny, pokud ano dame echo */
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     echo "<div class='cart-empty'>Váš košík je prázdný.</div>";
     exit;
 }
+
+
 
 /* timto prikazem odebereme produkt z kosiku */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_product_id'])) {

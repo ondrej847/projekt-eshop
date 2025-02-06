@@ -49,7 +49,9 @@ $conn->close();
 .objednavky-button {
     margin-top: 20px;
     text-align: center;
+
 }
+
 </style>
 
 <div class="account-info">

@@ -70,8 +70,6 @@ body {
 }
 </style>
 
-<script src="script/script.js"></script>
-    
 <div class="form-container">
     <h2>Přihlášení</h2>
         <form action="prihlaseni.php" method="POST">
@@ -90,6 +88,21 @@ body {
         </form>
                 </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const checkbox = document.getElementById('showPasswordCheckbox');
+    const passwordInput = document.getElementById('id_heslo');
 
-    <?php require_once "layout/footer.php"; ?>
+    checkbox.addEventListener('change', function () {
+        if (this.checked) {
+            passwordInput.type = 'text'; 
+        } else {
+            passwordInput.type = 'password'; 
+        }
+    });
+});
+</script>
+
+
+<?php require_once "layout/footer.php"; ?>
     

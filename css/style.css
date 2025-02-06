@@ -30,7 +30,7 @@ body {
 .button {
     padding: 10px 20px;  /* urcuje vnitrni okraje mezi obsahem a hranicemi */
     margin-left: 15px;  /* mezera mezi tlacitky */ 
-    background-color:rgb(136, 160, 141);  /* pozadi tlacitek najito na internetu */
+    background-color:rgb(136, 160, 141);  
     color: white;  /* Bílý text na tlačítkách */    
     text-decoration: none;  /* aby nebyl text podtrzeny */
     border-radius: 15px;  /* zaobleni rohu */
@@ -44,6 +44,8 @@ body {
 .cinkarna:hover {
     color:#4CAF50;  /* zmena barvy eshop, kdyz na to najedeme mysi */
 }
+
+
 
 
 
