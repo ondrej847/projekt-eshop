@@ -5,6 +5,9 @@ require_once "funcs.php";
 
 $conn = connect_db();
 
+
+
+
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     echo "<div class='prazdny-kosik'>Váš košík je prázdný.</div>";
     exit;
@@ -24,7 +27,7 @@ if ($result->num_rows > 0) {
     $psc = $user['psc'];
 }
 
-$total_price = 0;
+$celkova_cena = 0;
 $product_ids = implode(',', array_map('intval', array_keys($_SESSION['cart'])));
 $sql = "SELECT * FROM produkty WHERE product_id IN ($product_ids)";
 $products_result = $conn->query($sql);
@@ -33,40 +36,40 @@ if ($products_result->num_rows > 0) {
 while ($row = $products_result->fetch_assoc()) {
      $product_id = $row['product_id'];
     $quantity = $_SESSION['cart'][$product_id];
-     $total_price += $row['cena'] * $quantity;
+     $celkova_cena += $row['cena'] * $quantity;
 }
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['potvrdit_objednavku'])) {
 
-    if ($_POST['adresa_'] === 'registrace') {
+    $adresa = $_POST['adresa_'] ?? 'registrace'; 
+
+    if ($adresa === 'registrace') {
         $ulice = $user['ulice'];
         $cislo_popisne = $user['cislo_popisne'];
         $mesto = $user['mesto'];
         $psc = $user['psc'];
-    } elseif ($_POST['adresa_'] === 'novou_adresu') {
-        $ulice = $_POST['ulice'];
-        $cislo_popisne = $_POST['cislo_popisne'];
-        $mesto = $_POST['mesto'];
-        $psc = $_POST['psc'];
+    } elseif ($adresa === 'novou_adresu') {
+        $ulice = $_POST['ulice'] ?? '';
+        $cislo_popisne = $_POST['cislo_popisne'] ?? '';
+        $mesto = $_POST['mesto'] ?? '';
+        $psc = $_POST['psc'] ?? '';
     }
-}
-$sql = "INSERT INTO objednavky (user_id, celkova_cena, stav, platba, ulice, cislo_popisne, mesto, psc) 
-            VALUES ($user_id, $total_price, 'nová', 'nezaplaceno', '$ulice', '$cislo_popisne', '$mesto', '$psc')";
+    $sql = "INSERT INTO objednavky (user_id, celkova_cena, stav, platba, ulice, cislo_popisne, mesto, psc) 
+            VALUES ($user_id, $celkova_cena, 'nová', 'nezaplaceno', '$ulice', '$cislo_popisne', '$mesto', '$psc')";
     if ($conn->query($sql)) {
-        $order_id = $conn->insert_id;
-
+        $objednavka_id = $conn->insert_id;
+    } 
         foreach ($_SESSION['cart'] as $product_id => $quantity) {
             $sql = "INSERT INTO objednavky_produkty (objednavka_id, product_id, mnozstvi, cena) 
-                    VALUES ($order_id, $product_id, $quantity, (SELECT cena FROM produkty WHERE product_id = $product_id))";
-            $conn->query($sql);
+                    VALUES ($objednavka_id, $product_id, $quantity, (SELECT cena FROM produkty WHERE product_id = $product_id))";
+        
         }
         unset($_SESSION['cart']);
         
-        header("Location: potvrzeni.php?order_id=$order_id");
+        header("Location: potvrzeni.php?objednavka_id=$objednavka_id");
         exit;
-    } else {
-        echo "Chyba při vytváření objednávky.";
-    }
+    
+}
 
 ?>
 <style>
@@ -115,7 +118,7 @@ margin-top: 20px;
 
 <div class="pokladna-container">
 <h1>Pokladna</h1>
-    <p><strong>Celková cena: </strong><?= $total_price ?> Kč</p> <!-- strong - zvyrazneni tesxu -->
+    <p><strong>Celková cena: </strong><?= $celkova_cena ?> Kč</p> <!-- strong - zvyrazneni tesxu -->
     
     <form action="pokladna.php" method="post">
     <h3>Adresa doručení</h3>
@@ -151,9 +154,12 @@ margin-top: 20px;
             <option value="dobírka">Dobírka</option>         
             </select>
         </div>
-        <button type="submit" name="potvrdit_objednavku" class="potvrdit-button">Potvrdit objednávku</button>
+        <form action="pokladna.php" method="post">
+    <button type="submit" name="potvrdit_objednavku" class="potvrdit-button">Potvrdit objednávku
+    </button>
 </form>
 
+</form>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {

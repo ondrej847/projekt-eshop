@@ -60,7 +60,7 @@ if (!empty($_SESSION['cart'])) {
 }
 
 /* vypocet ceny */
-$total_price = 0;
+$celkova_cena = 0;
 ?>
 
 <style>
@@ -135,7 +135,7 @@ th {
                     $product_id = $row['product_id']; /* ziskame produkt_id */
                     $quantity = $_SESSION['cart'][$product_id];/*  nacte mnozstvi */
                     $subtotal = $row['cena'] * $quantity; /* cena kusu krát mnozstvi */
-                    $total_price += $subtotal;
+                    $celkova_cena += $subtotal;
                 ?>
                     <tr>
                         <td>  <!-- htmlspecialchars - zajistuje, ze texty a obrazky se zobrazi spravne a bezpecne na webu -->
@@ -156,7 +156,7 @@ th {
             <?php endif; ?>
         </tbody>
     </table>
-    <p class="total">Celková cena: <?= $total_price ?> Kč</p>
+    <p class="total">Celková cena: <?= $celkova_cena ?> Kč</p>
     <a href="pokladna.php" class="button">Přejít k pokladně</a>
 </div>
 
