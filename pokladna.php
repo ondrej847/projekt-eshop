@@ -5,9 +5,6 @@ require_once "funcs.php";
 
 $conn = connect_db();
 
-
-
-
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     echo "<div class='prazdny-kosik'>Váš košík je prázdný.</div>";
     exit;
@@ -66,12 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['potvrdit_objednavku']
         }
         unset($_SESSION['cart']);
         
-        header("Location: potvrzeni.php?objednavka_id=$objednavka_id");
-        exit;
-    
+        header("Location: potvrzeni.php?objednavka_id=$_id");
+        exit; 
 }
-
 ?>
+
 <style>
 .pokladna-container {
     max-width: 1100px;
@@ -115,7 +111,6 @@ margin-top: 20px;
 }
 </style>
 
-
 <div class="pokladna-container">
 <h1>Pokladna</h1>
     <p><strong>Celková cena: </strong><?= $celkova_cena ?> Kč</p> <!-- strong - zvyrazneni tesxu -->
@@ -155,9 +150,8 @@ margin-top: 20px;
             </select>
         </div>
         <form action="pokladna.php" method="post">
-    <button type="submit" name="potvrdit_objednavku" class="potvrdit-button">Potvrdit objednávku
-    </button>
-</form>
+    <button type="submit" name="potvrdit_objednavku" class="potvrdit-button">Potvrdit objednávku </button>
+        </form>
 
 </form>
 
