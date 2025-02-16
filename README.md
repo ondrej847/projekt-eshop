@@ -1,7 +1,7 @@
 Toto je můj maturitní projekt na téma eshop
 
 Název eshopu je Činkárna
- - v projektu jsem programoval funkční eshop na koupi činek a dalšých produktů spojených s cvičením
+ - v projektu jsem programoval funkční eshop na koupi činek a dalších produktů spojených s cvičením
  - Programoval jsem ve Visual Studio Code a dále jsem požil i Mysql Workbench
  - Propojil jsem Frontend (HTML, CSS, JS) a backend (PHP, MYSQL)
 
