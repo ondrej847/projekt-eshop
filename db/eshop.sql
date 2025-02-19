@@ -53,7 +53,7 @@ CREATE TABLE if NOT EXISTS objednavky (
 	stav enum('nová', 'zpracovává se', 'odeslána', 'dokončena', 'zrušena') DEFAULT 'nová',
 	platba ENUM('nezaplaceno', 'zaplaceno') DEFAULT 'nezaplaceno',
 	typ_platby ENUM('dobírka') DEFAULT 'dobírka', 
-		FOREIGN KEY (user_id) REFERENCES uzivatele(user_id)
+		FOREIGN KEY (`user_id`) REFERENCES `uzivatele`(`user_id`)
 )
 ENGINE = InnoDB;
 
@@ -98,6 +98,7 @@ SELECT * FROM role;
 SELECT * FROM produkty;
 SELECT * FROM uzivatele WHERE role_id = 1;
 SELECT * FROM objednavky_produkty;
+SELECT * FROM objednavky;
 
 UPDATE produkty
 SET popis = 'Sada činek s pevnou váhou, vinylovým potahem a kovovým jádrem. Vhodné pro kondiční cvičení.'
@@ -130,3 +131,12 @@ WHERE product_id = 7;
 UPDATE produkty
 SET popis = 'Vhodné na posílení celého prsního svalstva, ocelová konstrukce s maximální nosností 180 kg.'
 WHERE product_id = 8;
+
+ALTER TABLE objednavky
+MODIFY stav ENUM('nová', 'zpracovává se', 'odeslána') DEFAULT 'nová';
+
+INSERT INTO objednavky (user_id, celkova_cena, stav, platba, ulice, cislo_popisne, mesto, psc) 
+VALUES (2, 100.50, 'nová', 'nezaplaceno', 'ulice', '123', 'Město', '12345');
+
+SHOW CREATE TABLE objednavky;
+
