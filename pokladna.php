@@ -11,7 +11,7 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM uzivatele WHERE user_id = $user_id";
+$sql = "SELECT * FROM uzivatele WHERE user_id = {$_SESSION['user_id']};";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -36,9 +36,9 @@ while ($row = $products_result->fetch_assoc()) {
      $celkova_cena += $row['cena'] * $quantity;
 }
 }
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['potvrdit_objednavku'])) {
 
-    $adresa = $_POST['adresa_'] ?? 'registrace'; 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['potvrdit_objednavku'])) {
+    $adresa = $_POST['adresa_'] ?? 'registrace';
 
     if ($adresa === 'registrace') {
         $ulice = $user['ulice'];
@@ -51,22 +51,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['potvrdit_objednavku']
         $mesto = $_POST['mesto'] ?? '';
         $psc = $_POST['psc'] ?? '';
     }
-    $sql = "INSERT INTO objednavky (user_id, celkova_cena, stav, platba, ulice, cislo_popisne, mesto, psc) 
-            VALUES ($user_id, $celkova_cena, 'nová', 'nezaplaceno', '$ulice', '$cislo_popisne', '$mesto', '$psc')";
-    if ($conn->query($sql)) {
-        $objednavka_id = $conn->insert_id;
-    } 
-        foreach ($_SESSION['cart'] as $product_id => $quantity) {
+
+    $stmt = $conn->prepare("INSERT INTO objednavky (user_id, celkova_cena, stav, platba, ulice, cislo_popisne, mesto, psc) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    
+    $stav = 'nová';
+    $platba = 'nezaplaceno';
+
+    $stmt->bind_param("idssssss", $user_id, $celkova_cena, $stav, $platba, $ulice, $cislo_popisne, $mesto, $psc);
+
+    if ($stmt->execute()) {
+        $objednavka_id = $stmt->insert_id;
+        $stmt->close();
+
+        foreach ($_SESSION['cart'] as $product_id => $mnozstvi) {
             $sql = "INSERT INTO objednavky_produkty (objednavka_id, product_id, mnozstvi, cena) 
-                    VALUES ($objednavka_id, $product_id, $quantity, (SELECT cena FROM produkty WHERE product_id = $product_id))";
-        
+                    VALUES (?, ?, ?, (SELECT cena FROM produkty WHERE product_id = ?))";
+            
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("iiid", $objednavka_id, $product_id, $mnozstvi, $product_id); /* bind parm kvuli bezpecnosti */
+            $stmt->execute();
+            $stmt->close();
         }
+
         unset($_SESSION['cart']);
-        
-        header("Location: potvrzeni.php?objednavka_id=$_id");
         exit; 
+        header("Location: potvrzeni.php?objednavka_id=$objednavka_id");
+    } else {
+        echo "Objednávka nebyla vložena. Zkuste to znovu.";
+    }
 }
 ?>
+
 
 <style>
 .pokladna-container {
@@ -127,32 +143,31 @@ margin-top: 20px;
     <br>
     <div id="nova_adresa" style="display: none;">
         <label for="ulice">Ulice:</label>
-        <input type="text" name="ulice" id="ulice" required>
+        <input type="text" name="ulice" id="ulice">
         <br>
         <label for="cislo_popisne">Číslo popisné:</label>
-        <input type="text" name="cislo_popisne" id="cislo_popisne" required>
+        <input type="text" name="cislo_popisne" id="cislo_popisne">
         <br>
         <label for="mesto">Město:</label>
-        <input type="text" name="mesto" id="mesto" required>
+        <input type="text" name="mesto" id="mesto">
         <br>
         <label for="psc">PSČ:</label>
-        <input type="text" name="psc" id="psc" required>
+        <input type="text" name="psc" id="psc">
         <br>
     </div>
     <div id="adresa_registrace">
         <p><strong>Adresa z registrace:</strong></p>
         <p><?= htmlspecialchars($ulice . " " . $cislo_popisne . ", " . $mesto . " " . $psc); ?></p>
     </div>
+    
     <div class="platba">
-            <label for="zpusob-platby">Způsob platby:</label>
-            <select name="order_type">
+        <label for="zpusob-platby">Způsob platby:</label>
+        <select name="order_type">
             <option value="dobírka">Dobírka</option>         
-            </select>
-        </div>
-        <form action="pokladna.php" method="post">
-    <button type="submit" name="potvrdit_objednavku" class="potvrdit-button">Potvrdit objednávku </button>
-        </form>
+        </select>
+    </div>
 
+    <button type="submit" name="potvrdit_objednavku" class="potvrdit-button">Potvrdit objednávku</button>
 </form>
 
 <script>
