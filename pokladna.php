@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once "layout/header.php";
-require_once "funcs.php";
 
+require_once "funcs.php";
+require_once "layout/header.php";
 $conn = connect_db();
 
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
@@ -30,11 +30,11 @@ $sql = "SELECT * FROM produkty WHERE product_id IN ($product_ids)";
 $products_result = $conn->query($sql);
 
 if ($products_result->num_rows > 0) {
-while ($row = $products_result->fetch_assoc()) {
-     $product_id = $row['product_id'];
-    $quantity = $_SESSION['cart'][$product_id];
-     $celkova_cena += $row['cena'] * $quantity;
-}
+    while ($row = $products_result->fetch_assoc()) {
+        $product_id = $row['product_id'];
+        $mnozstvi = $_SESSION['cart'][$product_id];
+        $celkova_cena += $row['cena'] * $mnozstvi;
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['potvrdit_objednavku'])) {
@@ -75,8 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['potvrdit_objednavku']
         }
 
         unset($_SESSION['cart']);
-        exit; 
         header("Location: potvrzeni.php?objednavka_id=$objednavka_id");
+        exit;
     } else {
         echo "Objednávka nebyla vložena. Zkuste to znovu.";
     }
