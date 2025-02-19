@@ -10,18 +10,24 @@ $conn = connect_db();
 if (!isset($_SESSION['user_id'])) {
 
     echo '
-    <div id="message" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-         background-color: white; color:rgb(136, 160, 141); 
-            padding: 20px; text-align: center; font-size: 28px;  
-             border: rgb(136, 160, 141);; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
-        Nejsi přihlášen, přihlas se
+    <div id="message" style="
+     max-width: 650px;
+    margin: 50px auto;
+    padding: 50px;
+    border: 2px solid rgb(136, 160, 141);
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 280px ;;">
+        Pro přidávání do košíku musíte být příhlášen
     </div>';
-    echo '<script>
-            console.log("Zpráva bude zobrazená a přesměrování za 2 sekundy.");
+echo '<script>
+        console.log("Zpráva bude zobrazená a přesměrování za 2 sekundy.");
             setTimeout(function() {
                 window.location.href = "prihlaseni.php"; 
             }, 4000); 
-          </script>';
+     </script>';
     exit(); 
 }
 
