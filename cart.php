@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once "layout/header.php";
-require_once "funcs.php";
 
+require_once "funcs.php";
+require_once "layout/header.php";
 $conn = connect_db();
 
 
@@ -11,15 +11,18 @@ if (!isset($_SESSION['user_id'])) {
 
     echo '
     <div id="message" style="
-     max-width: 650px;
+     max-width: 500px;
     margin: 50px auto;
     padding: 50px;
-    border: 2px solid rgb(136, 160, 141);
-    border-radius: 8px;
+    border: 2px dashed solid rgb(136, 160, 141); 
+    border-radius: 10px;
     background-color: #f9f9f9;
     text-align: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 280px ;;">
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 280px;
+    font-size: 18px;
+    color: rgb(136, 160, 141); 
+    font-weight: bold;">
         Pro přidávání do košíku musíte být příhlášen
     </div>';
 echo '<script>
@@ -33,7 +36,22 @@ echo '<script>
 
 /* zkontrolujeme zda je kosik prazdny, pokud ano dame echo */
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-    echo "<div class='cart-empty'>Váš košík je prázdný.</div>";
+    echo "<div style='
+    max-width: 500px;
+    margin: 70px auto;
+    padding: 20px;
+    text-align: center;
+    border: 2px dashed solid rgb(136, 160, 141);
+    background-color:#f9f9f9;
+    color: rgb(136, 160, 141); 
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 300px;
+'>
+    🛒 Váš košík je prázdný. Přidejte si něco do něj! 
+</div>";
     exit;
 }
 
@@ -117,9 +135,7 @@ th {
     height: auto;
 }
 
-.cart-empty {
 
-}
   
 </style>
 
