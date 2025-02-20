@@ -45,30 +45,30 @@ CREATE TABLE if NOT EXISTS uzivatele (
 ENGINE = InnoDB;
 
 
-CREATE TABLE if NOT EXISTS objednavky (
-	objednavka_id INT AUTO_INCREMENT PRIMARY KEY,
-	user_id int,
-	datum_objednavky timestamp DEFAULT current_timestamp,
-	celkova_cena DECIMAL(10, 2),
-	stav enum('nová', 'zpracovává se', 'odeslána', 'dokončena', 'zrušena') DEFAULT 'nová',
-	platba ENUM('nezaplaceno', 'zaplaceno') DEFAULT 'nezaplaceno',
-	typ_platby ENUM('dobírka') DEFAULT 'dobírka', 
-		FOREIGN KEY (`user_id`) REFERENCES `uzivatele`(`user_id`)
-)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS objednavky (
+    objednavka_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    datum_objednavky TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    celkova_cena DECIMAL(10, 2),
+    stav ENUM('nová', 'zpracovává se', 'odeslána') DEFAULT 'nová',
+    platba ENUM('nezaplaceno', 'zaplaceno') DEFAULT 'nezaplaceno',
+    typ_platby ENUM('dobírka') DEFAULT 'dobírka',
+    ulice VARCHAR(150) NOT NULL,
+    cislo_popisne VARCHAR(150) NOT NULL,
+    mesto VARCHAR(150) NOT NULL,
+    psc VARCHAR(150) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES uzivatele(user_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
--- tabulka, která bude propojovat objednávky s produkty
-CREATE TABLE if NOT EXISTS objednavky_produkty (
+CREATE TABLE IF NOT EXISTS objednavky_produkty (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     objednavka_id INT,
-	product_id INT,
-	mnozstvi INT NOT NULL DEFAULT 1,
-	cena DECIMAL(10, 2),
-		PRIMARY KEY (objednavka_id, product_id),
-		FOREIGN KEY (objednavka_id) REFERENCES objednavky(objednavka_id),
-		FOREIGN KEY (product_id) REFERENCES produkty(product_id)
-)
-ENGINE = InnoDB;
+    product_id INT,
+    mnozstvi INT,
+    cena DECIMAL(10, 2),
+    FOREIGN KEY (objednavka_id) REFERENCES objednavky(objednavka_id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES produkty(product_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- produkty
 INSERT INTO produkty (nazev, popis, cena, mnozstvi, datum_pridani, obrazek_url)
@@ -86,12 +86,22 @@ VALUES
 INSERT INTO role (nazev) VALUES ('admin');
 INSERT INTO role (nazev) VALUES ('uzivatel');
 
-INSERT INTO uzivatele (jmeno, prijmeni, email, heslo, telefon, ulice, cislo_popisne, mesto, psc)
+INSERT INTO uzivatele (jmeno, prijmeni, email, heslo, telefon, ulice, cislo_popisne, mesto, psc, role_id)
 VALUES
-	('Ondrej','Schovanek', 'ondra-schovanek@seznam.cz', '123456', '603109749', 'Těsnohlídkova', '847', 'Tišnov', '66603');
+	('admin','admin', 'admin@admin.com', '$2y$10$izATjmtLjsAn8xAENyuSrumrnh46qZsP46abssg0WBcRh5NmaDQdu', '123456789', 'admin', '111', 'admin', '11111', '1');
 -- později si pomoci INSERT vlozim do tabulky jedineho admina, ktery bude moct upravovat
 
+INSERT INTO objednavky (user_id, celkova_cena, stav, platba, ulice, cislo_popisne, mesto, psc) 
+VALUES (2, 1000, 'nová', 'nezaplaceno', 'Hlavní', '123', 'Praha', '11000');
 
+SELECT 
+    TABLE_NAME, 
+    COLUMN_NAME, 
+    CONSTRAINT_NAME 
+FROM 
+    INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+WHERE 
+    REFERENCED_TABLE_NAME = 'objednavky';
 
 SELECT * FROM uzivatele;
 SELECT * FROM role;
@@ -99,6 +109,17 @@ SELECT * FROM produkty;
 SELECT * FROM uzivatele WHERE role_id = 1;
 SELECT * FROM objednavky_produkty;
 SELECT * FROM objednavky;
+SHOW CREATE TABLE objednavky;
+
+ALTER TABLE objednavky MODIFY COLUMN stav VARCHAR(20) NOT NULL DEFAULT 'nová';
+
+ALTER TABLE objednavky ADD COLUMN ulice VARCHAR(150);
+ALTER TABLE objednavky ADD COLUMN cislo_popisne VARCHAR(15);
+ALTER TABLE objednavky ADD COLUMN mesto VARCHAR(50);
+ALTER TABLE objednavky ADD COLUMN psc VARCHAR(10);
+DELETE FROM produkty WHERE product_id = 16;
+
+
 
 UPDATE produkty
 SET popis = 'Sada činek s pevnou váhou, vinylovým potahem a kovovým jádrem. Vhodné pro kondiční cvičení.'
@@ -131,12 +152,3 @@ WHERE product_id = 7;
 UPDATE produkty
 SET popis = 'Vhodné na posílení celého prsního svalstva, ocelová konstrukce s maximální nosností 180 kg.'
 WHERE product_id = 8;
-
-ALTER TABLE objednavky
-MODIFY stav ENUM('nová', 'zpracovává se', 'odeslána') DEFAULT 'nová';
-
-INSERT INTO objednavky (user_id, celkova_cena, stav, platba, ulice, cislo_popisne, mesto, psc) 
-VALUES (2, 100.50, 'nová', 'nezaplaceno', 'ulice', '123', 'Město', '12345');
-
-SHOW CREATE TABLE objednavky;
-
