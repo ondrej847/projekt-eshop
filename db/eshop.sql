@@ -89,11 +89,6 @@ INSERT INTO role (nazev) VALUES ('uzivatel');
 INSERT INTO uzivatele (jmeno, prijmeni, email, heslo, telefon, ulice, cislo_popisne, mesto, psc, role_id)
 VALUES
 	('admin','admin', 'admin@admin.com', '$2y$10$izATjmtLjsAn8xAENyuSrumrnh46qZsP46abssg0WBcRh5NmaDQdu', '123456789', 'admin', '111', 'admin', '11111', '1');
--- později si pomoci INSERT vlozim do tabulky jedineho admina, ktery bude moct upravovat
-
-INSERT INTO objednavky (user_id, celkova_cena, stav, platba, ulice, cislo_popisne, mesto, psc) 
-VALUES (2, 1000, 'nová', 'nezaplaceno', 'Hlavní', '123', 'Praha', '11000');
-
 
 UPDATE produkty
 SET popis = 'Sada činek s pevnou váhou, vinylovým potahem a kovovým jádrem. Vhodné pro kondiční cvičení.'
