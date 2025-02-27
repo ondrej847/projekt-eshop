@@ -6,7 +6,10 @@ Název eshopu je Činkárna
  - Propojil jsem Frontend (HTML, CSS, JS) a backend (PHP, MYSQL)
 
 Návod na instalaci:
- - Nejprve se musíte ujistit, zda máte nainstalovaný Visual Studio Code (https://code.visualstudio.com/) a MYSQL Workbench 8.0 CE (https://dev.mysql.com/downloads/workbench/) s Wampserverem 64 (https://download.cnet.com/wampserver-64-bit/3000-10248_4-75544590.html)
+ - Nejprve se musíte ujistit, zda máte nainstalovaný:
+     Visual Studio Code (https://code.visualstudio.com/)
+     MYSQL Workbench 8.0 CE (https://dev.mysql.com/downloads/workbench/)
+     Wampserver 64 (https://download.cnet.com/wampserver-64-bit/3000-10248_4-75544590.html)
  - V zeleném tlačítku na stránce repozitáře klikněte na Code a následně nainstalujte ZIP soubor
  - Ujistěte se, že jste ho extrahovali ve správné složce na vašem C: disku ve WAMPU (C: -> wamp64 -> www -> 4R)
  - Otevřete sql script, kde si poupravíte password, podle toho jaké máte vy (typicky root)
