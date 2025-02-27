@@ -94,32 +94,6 @@ VALUES
 INSERT INTO objednavky (user_id, celkova_cena, stav, platba, ulice, cislo_popisne, mesto, psc) 
 VALUES (2, 1000, 'nová', 'nezaplaceno', 'Hlavní', '123', 'Praha', '11000');
 
-SELECT 
-    TABLE_NAME, 
-    COLUMN_NAME, 
-    CONSTRAINT_NAME 
-FROM 
-    INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
-WHERE 
-    REFERENCED_TABLE_NAME = 'objednavky';
-
-SELECT * FROM uzivatele;
-SELECT * FROM role;
-SELECT * FROM produkty;
-SELECT * FROM uzivatele WHERE role_id = 1;
-SELECT * FROM objednavky_produkty;
-SELECT * FROM objednavky;
-SHOW CREATE TABLE objednavky;
-
-ALTER TABLE objednavky MODIFY COLUMN stav VARCHAR(20) NOT NULL DEFAULT 'nová';
-
-ALTER TABLE objednavky ADD COLUMN ulice VARCHAR(150);
-ALTER TABLE objednavky ADD COLUMN cislo_popisne VARCHAR(15);
-ALTER TABLE objednavky ADD COLUMN mesto VARCHAR(50);
-ALTER TABLE objednavky ADD COLUMN psc VARCHAR(10);
-DELETE FROM produkty WHERE product_id = 16;
-
-
 
 UPDATE produkty
 SET popis = 'Sada činek s pevnou váhou, vinylovým potahem a kovovým jádrem. Vhodné pro kondiční cvičení.'
