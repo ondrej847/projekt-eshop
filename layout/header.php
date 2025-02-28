@@ -8,16 +8,16 @@ if (session_status() == PHP_SESSION_NONE) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Eshop</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="hlastr">   
-        <a href="index.php" class="cinkarna">Činkárna</a>
+<a href="index.php" class="cinkarna">Činkárna</a>
 
-    <div class="buttons">
+<div class="buttons">
         <?php if (isset($_SESSION['user_id'])): ?>
             <!--    kdyz je uzivatel prihlasen bude mit moznost se odlhasit pomoci tlacitka a bude mit moznost na svuj ucet -->
             <a href="logout.php" class="button">Odhlásit</a>

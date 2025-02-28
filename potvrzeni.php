@@ -52,3 +52,5 @@ $conn->close();
                 window.location.href = "index.php"; 
             }, 8000); 
 </script>';
+
+<?php require_once "layout/footer.php"; ?>

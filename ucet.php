@@ -52,6 +52,9 @@ $conn->close();
 
 }
 
+
+
+
 </style>
 
 <div class="account-info">
@@ -74,6 +77,26 @@ $conn->close();
         </div>
  <?php endif; ?>
 </div>
+<footer class="footer">
+    <p>📞 Telefon: +420 603 109 749</p>
+    <p>✉️ E-mail: ondra-schovanek@seznam.cz</p>
+</footer>
 
+<style>
+.footer {
+    background-color: rgba(51, 51, 51, 0.9);   
+    color: white; 
+    text-align: center;  
+    width: 100%;  
+    position: fixed;  
+    bottom: 0;  
+    left: 50%;
+    transform: translateX(-50%);  
+    padding: -5px 0; 
+    justify-content: center; 
+
+}
+
+</style>
 
 <?php require_once "layout/footer.php"; ?>

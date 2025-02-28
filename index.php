@@ -41,6 +41,7 @@ $result = $conn->query($sql);
         max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
+        margin-top: 45px;
 
     }
     .product {
@@ -52,6 +53,17 @@ $result = $conn->query($sql);
     .product img {
         width: 220px;   /* sirka obrazku */
         height: 220px;   /* vyska */
+    }
+    @media (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    }
+
+    @media (max-width: 600px) {
+    .product-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
     }
     .product h3 {
         font-size: 1.2em;
@@ -81,7 +93,7 @@ $result = $conn->query($sql);
     }
 </style>
 
-    <h1>Produkty</h1>
+
 
     <div class="product-grid">
         <?php if ($result->num_rows > 0): ?> <!-- zda SQL dotaz obsahuje alespon jeden radek -->

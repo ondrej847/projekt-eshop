@@ -2,6 +2,7 @@ body {
     margin: 0;  /* vytvari prostor mezi elementy */
     padding: 0;
     font-family: Arial, sans-serif;
+
 }
 
 .hlastr {
@@ -12,6 +13,7 @@ body {
     padding: 10px 20px;  /* vnitrni okraje pro tlacitka */
     display: flex;  /* flexbox pro umisteni tlacitek */
     justify-content: space-between;  /* to znamena ze eshop bude na leve a tlacitka na prave */
+    z-index: 1000;  
 }
 
 .cinkarna {
@@ -44,8 +46,4 @@ body {
 .cinkarna:hover {
     color:#4CAF50;  /* zmena barvy eshop, kdyz na to najedeme mysi */
 }
-
-
-
-
 
