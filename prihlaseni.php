@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     } else {
 /* pokud zada spatne udaje napise mu to zpravu: TODO - dodělat css pro zpravu */
-        echo "Neplatný email nebo heslo!";
+        echo "<div class='error-message' id='error-message'>Neplatný email nebo heslo!</div>";
     }
 
 /* konec dotazu  */
@@ -68,6 +68,23 @@ body {
     font-size: 14px;
     vertical-align: middle; 
 }
+
+.error-message {
+    color: red; 
+    background-color: #f8d7da; 
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;  
+    font-size: 16px;
+    text-align: center;  
+    position: absolute;  
+    top: 80px;  
+    left: 50%;  
+    transform: translateX(-50%); 
+    width: 20%; 
+    z-index: 10;  
+}
+
 </style>
 
 <div class="form-container">
@@ -100,6 +117,18 @@ document.addEventListener("DOMContentLoaded", function() {
             passwordInput.type = 'password'; 
         }
     });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const errorMessage = document.getElementById('error-message');
+    if (errorMessage) {
+        setTimeout(function() {
+        errorMessage.style.opacity = '0';  
+        setTimeout(function() {
+        errorMessage.style.display = 'none';  
+        }, 1000); 
+    }, 3000);  
+}
 });
 </script>
 
